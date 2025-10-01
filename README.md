@@ -13,16 +13,18 @@ Each branch includes a README.md file with setup instructions:
 - Branch `Master`: draft only.
 - Branch `nextflow`: how to run the Nextflow pipeline on Palma.
 - Branch `apptainer`: how to run the Nextflow pipeline using containers on Palma. Unlike the `nextflow` branch, where Plink and the R packages are installed in the home directory, in this branch they are packed in two containers separately. 
+
+## 2) Note regarding repo [CASTom-iGEx](https://github.com/zillerlab/CASTom-iGEx/tree/master).
+
+### Module 1 [Model Training](https://github.com/zillerlab/CASTom-iGEx/tree/master/Software/model_training)
+There is a `README.md` file describing the steps of model training. Supplementary Fig. 2 in the [Supplementary Information](https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-024-49338-2/MediaObjects/41467_2024_49338_MOESM1_ESM.pdf) provides a visualisation of an overview of the model training process.
+
+For additional personal notes on this part, please refer to [`model_training.md`](https://github.com/Ruoyu6666/handover_note/blob/main/model_training.md) in this repository.
+
+
+### Module 2 [Model Prediction](https://github.com/zillerlab/CASTom-iGEx/tree/master/Software/model_prediction)
 ##
 ##
-## 2) Note regarding  [CASTom-iGEx](https://github.com/zillerlab/CASTom-iGEx/tree/master).
-
-### Model Training [Model Training](https://github.com/zillerlab/CASTom-iGEx/tree/master)
-In [Supplementary information](https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-024-49338-2/MediaObjects/41467_2024_49338_MOESM1_ESM.pdf) Supplementary Fig. 2. gives a overview of what is done in "model training"
-
-
-### Model Prediction
-
 ### Ideas
 
 ### 3) Ideas regarding interdediate phenotyes convergence

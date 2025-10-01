@@ -1,7 +1,6 @@
 # Training prediction model with PriLer
-## Paths to input 
 
-## Input Files
+## Paths to input Files
 - **Gene expression matrix** (*--geneExp_file*): preprocessed gene expression (genes x samples). First column refers to gene names (ensembl annotation or HUGO nomenclature). \
 *Path*:`/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/INPUT_DATA/RNAseq_data/${tissue}/RNAseq_`
 
