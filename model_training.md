@@ -4,35 +4,35 @@
 This part provides the input file paths for model training, which I infer from the [bash scripts](https://github.com/zillerlab/CASTom-iGEx_Paper/tree/main/Application/PriLer/GTEx_v6p) for model training. Better get further confirmed.
 
 - **Gene expression matrix** (*--geneExp_file*): preprocessed gene expression (genes x samples). First column refers to gene names (ensembl annotation or HUGO nomenclature)
-*Path*:`/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/INPUT_DATA/RNAseq_data/${tissue}/RNAseq_`
+***Path***:`/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/INPUT_DATA/RNAseq_data/${tissue}/RNAseq_`
 
 - **Genotype matrix** (*--genoDat_file*): dosages for each chromosome (compressed txt) without variants name/position (variants x samples). *NOTE: the file must end with chr<>_matrix.txt.gz* \
-*Path*:`/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/INPUT_DATA/Genotype_data/Genotype_dosage_chr{chr}_matrix.txt.gz`
+***Path***:`/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/INPUT_DATA/Genotype_data/Genotype_dosage_chr{chr}_matrix.txt.gz`
 
 - **Genotype info matrix** (*--VarInfo_file*): contains variants position, name and other info, must contain columns `CHR` and `POS` and match with Genotype matrix. *NOTE: the file must end with  chr<>.txt* \
-*Path*:`/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/INPUT_DATA/Genotype_data/Genotype_VariantsInfo_CMC-PGCgwas-CADgwas_`
+***Path***:`/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/INPUT_DATA/Genotype_data/Genotype_VariantsInfo_CMC-PGCgwas-CADgwas_`
 
 - **Covariate matrix** (*--covDat_file*): columns must contain `Individual_ID`, `genoSample_ID` and `RNASample_ID` to match genotype and gene expression plus covariates to be used in the regression model. Column `Dx` (0 control 1 case) is optional as well as it's usage. *Note: Samples in genotype and gene expression matrix are filtered based on covariate matrix* \
-*Path*:`/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/INPUT_DATA/Covariates/${tissue}/covariates_EuropeanSamples.txt`
+***Path***:`/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/INPUT_DATA/Covariates/${tissue}/covariates_EuropeanSamples.txt`
 
 - **Prior matrix** (*--priorDat_file*): prior information for variants (variants x prior features). It doesn't include variant name and MUST match genotype matrix. The columns can be binary (one-hot encoding for intersection) or continuous.  \
-*Path*:`/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/OUTPUT_SCRIPTS_v2/priorMatrix_*`
+***Path***:`/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/OUTPUT_SCRIPTS_v2/priorMatrix_*`
 
 - **List heritable genes** (*--geneList_file*): usually obtained from TWAS heritable analysis: list of genes, match external_gene_name or ensembl_gene_id. Set of heritable genes being regulated by cis-variants. \
-*Path*:`/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/INPUT_DATA/TWAS/GTEx_v7/list_heritableGenes_${tissue}.txt` 
+***Path***:`/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/INPUT_DATA/TWAS/GTEx_v7/list_heritableGenes_${tissue}.txt` 
 
 - **Gene annotation files of TSS and position** (*--biomartTSS_file --biomartGenePos_file*) obtained using *PrepareData_biomart_TSS.R* script. Possibility of recomputing or use provided fixed version \
-*Path*:`${CASTom-iGEx_fold}refData/hg19.ENSEMBL_geneTSS_biomart_correct.txt`
+***Path***:`${CASTom-iGEx_fold}refData/hg19.ENSEMBL_geneTSS_biomart_correct.txt`
 
 ## Conda Environment
-I personally perfer using conda to run the commanand
+I personally perfer to use conda for easier package management. The following steps are for setting up conda environment:
 ```bash
 # Start a job
 salloc -c 2 --mem-per-cpu 16G -p normal -t 04:00:00 # for example
 module --force purge
 module load palma/2022a Miniconda3/4.12.0
 
-# Create a conda envrionment
+# Create a conda envrionment named castom
 conda create -n castom -c conda-forge -c bioconda r-base r-essentials jq r-biocmanager
 conda init
 conda activate castom
@@ -42,20 +42,17 @@ conda install bioconda::bioconductor-biomart
 .... 
                       
 ```
-Use the [R sript](https://github.com/zillerlab/CASTom-iGEx/blob/master/Software/install_requirements.R) to install required packages. 
+Install the other required packages using the [R script](https://github.com/zillerlab/CASTom-iGEx/blob/master/Software/install_requirements.R).
 
-## Workflow
+## Example Workflow
 ### Pre-processing:
 https://github.com/zillerlab/CASTom-iGEx_Paper/blob/main/Application/PriLer/GTEx_v6p/preProcessing_data_allTissues.sh
 
 ```bash
-# module load palma/2023b GCC/13.2.0 R/4.4.1
 f=/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/
-#f=/scratch/tmp/rguo/CASTOMiGEx/PriLer_PROJECT_GTEx/
 git_fold=/home/r/rguo/scripts/castom-igex/
 t=Brain_Cortex # as an example
 ```
-
 
 ```bash
 Rscript ${git_fold}Software/model_training/preProcessing_data_run.R  \
