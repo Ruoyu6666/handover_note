@@ -1,7 +1,9 @@
 # Training prediction model with PriLer
 
 ## Paths to input Files
-- **Gene expression matrix** (*--geneExp_file*): preprocessed gene expression (genes x samples). First column refers to gene names (ensembl annotation or HUGO nomenclature). \
+This part provides the input file paths for model training, which I infer from the [bash scripts](https://github.com/zillerlab/CASTom-iGEx_Paper/tree/main/Application/PriLer/GTEx_v6p) for model training. Better get further confirmed.
+
+- **Gene expression matrix** (*--geneExp_file*): preprocessed gene expression (genes x samples). First column refers to gene names (ensembl annotation or HUGO nomenclature)
 *Path*:`/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/INPUT_DATA/RNAseq_data/${tissue}/RNAseq_`
 
 - **Genotype matrix** (*--genoDat_file*): dosages for each chromosome (compressed txt) without variants name/position (variants x samples). *NOTE: the file must end with chr<>_matrix.txt.gz* \
@@ -19,13 +21,14 @@
 - **List heritable genes** (*--geneList_file*): usually obtained from TWAS heritable analysis: list of genes, match external_gene_name or ensembl_gene_id. Set of heritable genes being regulated by cis-variants. \
 *Path*:`/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/INPUT_DATA/TWAS/GTEx_v7/list_heritableGenes_${tissue}.txt` 
 
-- **Gene annotation files of TSS and position** (*--biomartTSS_file --biomartGenePos_file*) obtained using *PrepareData_biomart_TSS.R* script. Possibility of recomputing or use provided fixed version
+- **Gene annotation files of TSS and position** (*--biomartTSS_file --biomartGenePos_file*) obtained using *PrepareData_biomart_TSS.R* script. Possibility of recomputing or use provided fixed version \
 *Path*:`${CASTom-iGEx_fold}refData/hg19.ENSEMBL_geneTSS_biomart_correct.txt`
 
 ## Conda Environment
+I personally perfer using conda to run the commanand
 ```bash
 # Start a job
-salloc -c 2 --mem-per-cpu 16G -p normal -t 04:00:00 
+salloc -c 2 --mem-per-cpu 16G -p normal -t 04:00:00 # for example
 module --force purge
 module load palma/2022a Miniconda3/4.12.0
 
@@ -36,9 +39,10 @@ conda activate castom
 
 # Install required packages
 conda install bioconda::bioconductor-biomart
-....                                                    
+.... 
+                      
 ```
-
+Use the [R sript](https://github.com/zillerlab/CASTom-iGEx/blob/master/Software/install_requirements.R) to install required packages. 
 
 ## Workflow
 ### Pre-processing:
