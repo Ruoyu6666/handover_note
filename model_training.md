@@ -1,4 +1,5 @@
 # Training prediction model with PriLer
+## Paths to input 
 
 ## Input Files
 - **Gene expression matrix** (*--geneExp_file*): preprocessed gene expression (genes x samples). First column refers to gene names (ensembl annotation or HUGO nomenclature). \
