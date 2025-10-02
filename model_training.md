@@ -1,6 +1,6 @@
 # Training prediction model with PriLer
 
-## Paths to input Files
+## 1. Paths to input Files
 This part provides the input file paths for model training, which I infer from the [bash scripts](https://github.com/zillerlab/CASTom-iGEx_Paper/tree/main/Application/PriLer/GTEx_v6p) for model training. Better get further confirmed.
 
 - **Gene expression matrix** (*--geneExp_file*): preprocessed gene expression (genes x samples). First column refers to gene names (ensembl annotation or HUGO nomenclature)
@@ -24,12 +24,13 @@ This part provides the input file paths for model training, which I infer from t
 - **Gene annotation files of TSS and position** (*--biomartTSS_file --biomartGenePos_file*) obtained using *PrepareData_biomart_TSS.R* script. Possibility of recomputing or use provided fixed version \
 ***Path***:`${CASTom-iGEx_fold}refData/hg19.ENSEMBL_geneTSS_biomart_correct.txt`
 
-## Conda Environment
-I personally perfer to use conda for easier package management. The following steps are for setting up conda environment:
+## 2. Conda Environment
+Prefer to use conda for package management. The following steps are for setting up conda environment:
 ```bash
 # Start a job
 salloc -c 2 --mem-per-cpu 16G -p normal -t 04:00:00 # for example
 module --force purge
+# Load Miniconda
 module load palma/2022a Miniconda3/4.12.0
 
 # Create a conda envrionment named castom
@@ -44,56 +45,24 @@ conda install bioconda::bioconductor-biomart
 ```
 Install the other required packages using the [R script](https://github.com/zillerlab/CASTom-iGEx/blob/master/Software/install_requirements.R).
 
-## Example Workflow
+## 3. Model Training
 ### Pre-processing:
-https://github.com/zillerlab/CASTom-iGEx_Paper/blob/main/Application/PriLer/GTEx_v6p/preProcessing_data_allTissues.sh
-
 ```bash
 f=/cloud/wwu1/h_fungenpsy/AGZiller_data/CASTOMiGEx/PriLer_PROJECT_GTEx/
-git_fold=/home/r/rguo/scripts/castom-igex/
+git_fold=/home/r/rguo/scripts/castom-igex/ # the path of CASTom-iGEx folder
 t=Brain_Cortex # as an example
 ```
+Bash Script:
+https://github.com/zillerlab/CASTom-iGEx_Paper/blob/main/Application/PriLer/GTEx_v6p/preProcessing_data_allTissues.sh
 
-```bash
-Rscript ${git_fold}Software/model_training/preProcessing_data_run.R  \
-	--geneExp_file ${f}INPUT_DATA/RNAseq_data/${t}/RNAseq_norm.txt.gz\
-	--geneList_file ${f}INPUT_DATA/TWAS/GTEx_v7/list_heritableGenes_${t}.txt \
-	--VarInfo_file ${f}INPUT_DATA/Genotype_data/Genotype_VariantsInfo_matched_PGCgwas-CADgwas_ \
-	--biomartGenePos_file ${git_fold}refData/hg19.ENSEMBL_genes_biomart.txt \
-	--biomartTSS_file ${git_fold}refData/hg19.ENSEMBL_geneTSS_biomart_correct.txt \
-	--outFold ${f}OUTPUT_SCRIPTS_v2/${t}/ \
-	--outFold_geneExp ${f}INPUT_DATA/RNAseq_data/${t}/ \
-	--outFold_snps ${f}OUTPUT_SCRIPTS_v2/
-```
 
 ### Step 1
 https://github.com/zillerlab/CASTom-iGEx_Paper/blob/main/Application/PriLer/GTEx_v6p/ElNet_withPrior_part1_200kb_tissue.sh
 
-```bash
-mkdir -p ${f}PriLer_PROJECT_GTEx/OUTPUT_SCRIPTS_v2/${t}/200kb
-
-for i in $(seq 22)
-do
-	echo 'chr' $i
-
-	Rscript ${git_fold}Software/model_training/PriLer_part1_run.R \
-		--curChrom chr$i \
-		--covDat_file ${f}INPUT_DATA/Covariates/${t}/covariates_EuropeanSamples.txt \
-		--genoDat_file ${f}INPUT_DATA/Genotype_data/Genotype_dosage_ \
-		--geneExp_file ${f}INPUT_DATA/RNAseq_data/${t}/RNAseq_filt.txt \
-		--ncores 30 \
-		--outFold ${f}OUTPUT_SCRIPTS_v2/${t}/200kb/ \
-		--InfoFold ${f}OUTPUT_SCRIPTS_v2/${t}/ \
-		--functR ${git_fold}Software/model_training/PriLer_functions.R 
-done
-```
 
 ### Step 2
-https://github.com/zillerlab/CASTom-iGEx_Paper/blob/main/Application/PriLer/GTEx_v6p/ElNet_withPrior_part2_200kb_tissue_PGCgwas1e-2.sh
-
+An example bash script: https://github.com/zillerlab/CASTom-iGEx_Paper/blob/main/Application/PriLer/GTEx_v6p/ElNet_withPrior_part2_200kb_tissue_PGCgwas1e-2.sh
 ```bash
-priorInd=$(awk '{print $1}' ${f}OUTPUT_SCRIPTS_v2/${t}/priorName_PGCgwas_withIndex.txt)
-
 Rscript ${git_fold}Software/model_training/PriLer_part2_run.R \
 	--covDat_file ${f}INPUT_DATA/Covariates/${t}/covariates_EuropeanSamples.txt \
 	--genoDat_file ${f}INPUT_DATA/Genotype_data/Genotype_dosage_ \
@@ -105,12 +74,11 @@ Rscript ${git_fold}Software/model_training/PriLer_part2_run.R \
     --part1Res_fold ${f}OUTPUT_SCRIPTS_v2/${t}/200kb/ \
     --priorDat_file ${f}OUTPUT_SCRIPTS_v2/priorMatrix_ \
     --priorInf ${priorInd[@]} \
-    --E_set 5 7
+    --E_set 4 5 6 7 8 9 10 11 12 13 14 15 17.5 20 25
 ```
 
-
 ### Step 3
-https://github.com/zillerlab/CASTom-iGEx_Paper/blob/main/Application/PriLer/GTEx_v6p/ElNet_withPrior_part3_200kb_tissue_PGCgwas1e-2.sh
+An example bash script: https://github.com/zillerlab/CASTom-iGEx_Paper/blob/main/Application/PriLer/GTEx_v6p/ElNet_withPrior_part3_200kb_tissue_PGCgwas1e-2.sh
 
 ```bash
 Rscript ${git_fold}Software/model_training/PriLer_part3_run.R \
@@ -127,25 +95,4 @@ Rscript ${git_fold}Software/model_training/PriLer_part3_run.R \
 ```
 
 ### Step 4
-https://github.com/zillerlab/CASTom-iGEx_Paper/blob/main/Application/PriLer/GTEx_v6p/ElNet_withPrior_part4_200kb_tissue_PGCgwas1e-2.sh
-```bash
-for i in $(seq 22)
-do
-	echo 'chr' $i
-
-	${git_fold}Software/model_training/PriLer_part4_run.R \
-		--curChrom chr${i} \
-		--covDat_file ${f}INPUT_DATA/Covariates/${t}/covariates_EuropeanSamples.txt \
-		--genoDat_file ${f}INPUT_DATA/Genotype_data/Genotype_dosage_ \
-		--geneExp_file ${f}INPUT_DATA/RNAseq_data/${t}/RNAseq_filt.txt \
-		--ncores 32 \
-		--outFold ${f}OUTPUT_SCRIPTS_v2/${t}/200kb/PGC_GWAS_bin1e-2/ \
-		--InfoFold ${f}OUTPUT_SCRIPTS_v2/${t}/ \
-		--functR ${git_fold}Software/model_training/PriLer_functions.R \
-		--part1Res_fold ${f}OUTPUT_SCRIPTS_v2/${t}/200kb/ \
-		--part2Res_fold ${f}OUTPUT_SCRIPTS_v2/${t}/200kb/PGC_GWAS_bin1e-2/ \
-		--part3Res_fold ${f}OUTPUT_SCRIPTS_v2/${t}/200kb/PGC_GWAS_bin1e-2/ \
-		--priorDat_file ${f}OUTPUT_SCRIPTS_v2/priorMatrix_ \
-		--priorInf ${priorInd[@]}
-done
-```
+An example bash script: https://github.com/zillerlab/CASTom-iGEx_Paper/blob/main/Application/PriLer/GTEx_v6p/ElNet_withPrior_part4_200kb_tissue_PGCgwas1e-2.sh
