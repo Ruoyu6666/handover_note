@@ -27,7 +27,15 @@ For additional personal notes on this part, please refer to [`model_training.md`
 
 
 ### Module 2 [Model Prediction](https://github.com/zillerlab/CASTom-iGEx/tree/master/Software/model_prediction)
-##
-##
-##
+
 ## 3) Ideas regarding interdediate phenotyes convergence
+Schizophrenia is a highly heritable yet genetically complex disorder. Genome-wide association studies (GWAS) have identified hundreds of risk loci with small effect, yet each patient’s genetic makeup is nearly unique. The concept of genotypic convergence suggests that many different risk variants can produce common intermediate phenotypes that lie between genes and clinical illness.
+
+Intermediate phenotypes are heritable quantitative traits that link genotype to disease. Classic schizophrenia endophenotypes include structural measures of the brain (e.g. reduced volume of the hippocampus or frontal lobe), neurophysiological markers (e.g. impaired sensory gating or P300 amplitudes) and cognitive deficits (e.g. impaired working memory, attention and executive function).
+
+### Papers could be relevant:
+1. [**The genetic relationships between brain structure and schizophrenia**](https://www.nature.com/articles/s41467-023-43567-7)
+
+2. [Mapping the cellular etiology of schizophrenia and complex brain phenotypes](https://www.nature.com/articles/s41593-024-01834-w?error=cookies_not_supported&code=64eda057-1a14-4e2f-8af2-ea72d71f9dd1)
+
+3. [Connecting genomic results for psychiatric disorders to human brain cell types and regions reveals convergence with functional connectivity](https://www.nature.com/articles/s41467-024-55611-1?error=cookies_not_supported&code=c2ca1e3b-852c-45b0-9bb0-0cb40dba00b6)
