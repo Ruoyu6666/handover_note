@@ -86,7 +86,6 @@ do
 		--InfoFold ${f}OUTPUT_SCRIPTS_v2/${t}/ \
 		--functR ${git_fold}Software/model_training/PriLer_functions.R 
 done
-
 ```
 
 ### Step 2
@@ -125,7 +124,6 @@ Rscript ${git_fold}Software/model_training/PriLer_part3_run.R \
     --part2Res_fold ${f}OUTPUT_SCRIPTS_v2/${t}/200kb/PGC_GWAS_bin1e-2/ \
     --priorDat_file ${f}OUTPUT_SCRIPTS_v2/priorMatrix_ \
     --priorInf ${priorInd[@]}
-
 ```
 
 ### Step 4
