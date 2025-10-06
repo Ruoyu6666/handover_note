@@ -5,7 +5,7 @@
 3. Read [HPC Documentation](https://palma.uni-muenster.de/documentation/) to set up the HPC environment. 
 First the [Registration](https://palma.uni-muenster.de/documentation/quick-intro/registration/) and [SSH Access](https://palma.uni-muenster.de/documentation/quick-intro/ssh-access/) section to access **PALMA**. Then read the other sections for further use.
 
-## 1) Implement the imputation of gene expression pipeline managed with Nextflow
+## 1) Implementation of the gene expression imputation pipeline managed with Nextflow
 In the project *Genetic imputation of multi-omics profiles for patient stratification and phenotype prediction*, the goal of **Task 1.1** (Aim 1) is to implement an imputation framework from genotype data. 
 The [eCASTom-iGEx](https://github.com/Ruoyu6666/eCASTom-iGEx) repository is based on the [genetic data processing guide](https://github.com/zillerlab/CASTom-iGEx/wiki/Processing-genetic-data-to-work-with-CASTom%E2%80%90iGEx), which prepares genetic data for use with PriLer. The new repository manages this processing and imputation pipeline using **Nextflow** on top of the guide.
 
@@ -23,7 +23,7 @@ Paper recommendation for protein imputation: [**OmicsPred**](https://www.nature.
 
 The [`README.md`](https://github.com/zillerlab/CASTom-iGEx/tree/master/Software/model_training) file describes the steps of model training. Supplementary Fig. 2 in the [Supplementary Information](https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-024-49338-2/MediaObjects/41467_2024_49338_MOESM1_ESM.pdf) provides a visualisation of the model training process overview.
 
-For additional personal notes on this part, please refer to [`model_training.md`](https://github.com/Ruoyu6666/handover_note/blob/main/model_training.md) in this repository.
+For additional personal notes on this part refer to [`model_training.md`](https://github.com/Ruoyu6666/handover_note/blob/main/model_training.md) in this repository.
 
 
 ### Module 2 [Model Prediction](https://github.com/zillerlab/CASTom-iGEx/tree/master/Software/model_prediction)
